@@ -17,8 +17,10 @@ export default class Chat extends React.Component {
       user: {
         _id: '',
         name: '',
-        avatar: ''
+        avatar: '',
+        createdAt: ''
       },
+      uid: ''
     };
 
     // connecting to the database
@@ -47,17 +49,22 @@ export default class Chat extends React.Component {
       if (!user) {
         await firebase.auth().signInAnonymously();
       }
-      this.setState({
-        user: {
-            _id: user.uid,
-            name: this.props.route.params.name,
-            avatar: 'https://placeimg.com/140/140/any',
-            createdAt: new Date()
-        },
-        // uid: user.uid,
-        messages: [],
-      });
+      else {
+        this.setState({
+          // user: {
+          //     _id: user.uid,
+          //     name: this.props.route.params.name,
+          //     avatar: 'https://placeimg.com/140/140/any',
+          //     createdAt: new Date()
+          // },
+          uid: user.uid,
+          messages: [],
+        });
 
+      }
+      
+
+      
       // calling the onSnapshot function to receive the updated data
       this.referenceChatMessages = firebase.firestore().collection('messages');
       this.unsubscribe = this.referenceChatMessages.orderBy('createdAt', 'desc').onSnapshot(this.onCollectionUpdate);

@@ -27,6 +27,7 @@ export default function App() {
         <Stack.Screen
           name="Start"
           component={Start}
+          options = {{ headerShown: false}}
         />
         <Stack.Screen
           name="Chat"

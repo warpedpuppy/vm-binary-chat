@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, Button, TextInput, ImageBackground, StyleSheet, TouchableOpacity } from 'react-native';
-import { TouchableHighlight } from 'react-native-gesture-handler';
 import { color } from 'react-native-reanimated';
 
 // Start component's render function displays the initial screen elements
@@ -29,10 +28,10 @@ export default class Start extends React.Component {
             <Text style={ styles.bgText}>Choose Background Color:</Text>
             {/* to display the different background theme for the chat */}
             <View style={styles.circle}>
-              <TouchableHighlight style={styles.circle1} onPress={() => this.setState({userColor: '#090C08'})} value={this.state.userColor}></TouchableHighlight>
-              <TouchableHighlight style={styles.circle2} onPress={() => this.setState({userColor: '#474056'})} value={this.state.userColor}></TouchableHighlight>
-              <TouchableHighlight style={styles.circle3} onPress={() => this.setState({userColor: '#8A95A5'})} value={this.state.userColor}></TouchableHighlight>
-              <TouchableHighlight style={styles.circle4} onPress={() => this.setState({userColor: '#B9C6AE'})} value={this.state.userColor}></TouchableHighlight>
+              <TouchableOpacity style={styles.circle1} onPress={() => this.setState({userColor: '#090C08'})} value={this.state.userColor}></TouchableOpacity>
+              <TouchableOpacity style={styles.circle2} onPress={() => this.setState({userColor: '#474056'})} value={this.state.userColor}></TouchableOpacity>
+              <TouchableOpacity style={styles.circle3} onPress={() => this.setState({userColor: '#8A95A5'})} value={this.state.userColor}></TouchableOpacity>
+              <TouchableOpacity style={styles.circle4} onPress={() => this.setState({userColor: '#B9C6AE'})} value={this.state.userColor}></TouchableOpacity>
             </View>
             <TouchableOpacity
               style={styles.btn}
