@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, Button, TextInput, ImageBackground, StyleSheet, TouchableOpacity } from 'react-native';
-import { color } from 'react-native-reanimated';
 
 // Start component's render function displays the initial screen elements
 export default class Start extends React.Component {

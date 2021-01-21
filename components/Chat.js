@@ -7,6 +7,9 @@ import NetInfo from '@react-native-community/netinfo';
 // importing Gifted Chat Library
 import { Bubble, GiftedChat, InputToolbar } from 'react-native-gifted-chat';
 import { NavigationEvents } from 'react-navigation';
+// to display the location data in a map
+import MapView from 'react-native-maps';
+import CustomActions from './CustomActions';
 
 // importing and establishing a connection to Firestore
 const firebase = require('firebase');
@@ -26,6 +29,8 @@ export default class Chat extends React.Component {
       },
       uid: '',
       isConnected: false,
+      image: null,
+      location: null,
     };
 
     // connecting to the database
@@ -151,6 +156,8 @@ export default class Chat extends React.Component {
           name: data.user.name,
           avatar: data.user.avatar,
         },
+        image: data.image || null,
+        location: data.location || null,
       });
     });
     this.setState({
@@ -165,6 +172,8 @@ export default class Chat extends React.Component {
       text: message.text,
       createdAt: message.createdAt,
       user: message.user,
+      image: message.image || null,
+      location: message.location || null,
     });
   }
 
@@ -195,6 +204,33 @@ export default class Chat extends React.Component {
     }
   }
 
+  renderCustomActions = (props) => {
+    return <CustomActions { ...props} />;
+  }
+
+  renderCustomView(props) {
+    const { currentMessage } = props;
+    if(currentMessage.location) {
+      return (
+        <MapView
+          style={{
+            width: 150,
+            height: 100,
+            borderRadius: 13,
+            margin: 3
+          }}
+          region={{
+            latitude: currentMessage.location.latitude,
+            longitude: currentMessage.location.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+        />
+      );
+    }
+    return null;
+  }
+
   render() {
     // accessing the user name
     let name  = this.props.route.params.name;
@@ -212,6 +248,8 @@ export default class Chat extends React.Component {
           renderInputToolbar={this.renderInputToolbar.bind(this)}
           onSend={messages => this.onSend(messages)}
           user={this.state.user}
+          renderActions={this.renderCustomActions}
+          renderCustomView={this.renderCustomView}
         />
         {/* a conditional statement to add the Keyboard Avoiding View if the platform OS is Android */}
         { Platform.OS === 'android' ? <KeyboardAvoidingView behavior="height" /> : null }
