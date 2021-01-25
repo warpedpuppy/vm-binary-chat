@@ -20,9 +20,9 @@ export default class CustomActions extends React.Component {
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
       }).catch(error => console.error(error));
   
-      if(!result.cancelled){
+      if (!result.cancelled) {
         const imageUrl = await this.uploadImageFetch(result.uri);
-        this.props.onSend({ image: imageUrl });
+        this.props.onSend({ image: imageUrl, text: "" });
       }
     }
   }
@@ -30,14 +30,14 @@ export default class CustomActions extends React.Component {
   takePhoto = async () => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA, Permissions.MEDIA_LIBRARY);
   
-    if(status === 'granted') {
+    if (status === 'granted') {
       let result = await ImagePicker.launchCameraAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
       }).catch(error => console.error(error));
   
-      if(!result.cancelled){
+      if (!result.cancelled) {
         const imageUrl = await this.uploadImageFetch(result.uri);
-        this.props.onSend({ image: imageUrl });
+        this.props.onSend({ image: imageUrl, text: "" });
       }
     }
   }
@@ -63,6 +63,7 @@ export default class CustomActions extends React.Component {
   }
 
   uploadImageFetch = async (uri) => {
+
     const blob = await new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       xhr.onload = function () {
@@ -77,21 +78,15 @@ export default class CustomActions extends React.Component {
       xhr.send(null);
     });
 
+   
     try{
-
       const imageNameBefore = uri.split('/');
       const imageName = imageNameBefore[imageNameBefore.length - 1];
-
-      const ref = firebase.storage().ref().child(`images/${imageName}`);
-      // console.log('ref', ref);
-
-      const snapshot = await ref.put(blob);
-      console.log('snapshot', snapshot);
+      var ref = firebase.storage().ref().child(`images/${imageName}`);
+      const snapshot = await ref.put(blob)
       blob.close();
-
-      // const imageDownload = await snapshot.ref.getDownloadURL();
-      // console.log(imageDownload);
-      // return imageDownload;
+      const imageDownload = await snapshot.ref.getDownloadURL();
+      return imageDownload;
 
     }
     catch (e) {

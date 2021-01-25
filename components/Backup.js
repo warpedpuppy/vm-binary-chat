@@ -97,7 +97,7 @@ export default class Chat extends React.Component {
         // firebase.auth calls the firebase auth service for the app
         this.authUnsubscribe = firebase.auth().onAuthStateChanged(async (user) => {
           if (!user) {
-            let test = await firebase.auth().signInAnonymously();
+            await firebase.auth().signInAnonymously();
           }
           else {
             this.setState({
@@ -119,7 +119,6 @@ export default class Chat extends React.Component {
       
     // calling the onSnapshot function to receive the updated data
     this.referenceChatMessages = firebase.firestore().collection('messages');
-    // console.log('this.referenceChatMessages', this.referenceChatMessages)
     
   }
 
@@ -131,7 +130,6 @@ export default class Chat extends React.Component {
   }
 
   onSend(messages = []) {
-    console.log("on send has been hit", messages)
     // setState is called with previousState as the parameter -> reference to the component's
     // state at the time the change is applied.
     this.setState(previousState => ({
@@ -179,8 +177,6 @@ export default class Chat extends React.Component {
       location: message.location || null,
     });
   }
-
-
 
 
   renderBubble(props) {
@@ -240,12 +236,12 @@ export default class Chat extends React.Component {
     // accessing the user name
     console.log(this.props.route.params)
     let name  = this.props.route.params.name;
-    let backgroundColor = this.props.route.params.colorUser;
+    let bgcolor = this.props.route.params.colorUser;
     // configuring the username to be display it at the top of the screen
-    //this.props.navigation.setOptions({ title: name});
+    this.props.navigation.setOptions({ title: name, bgcolor });
     return (
-      <View style={{flex:1,  backgroundColor}}>
-        <Text>Hello!</Text>
+      <View style={{flex:1}}>
+        {/* <Text>Hello!</Text> */}
         {/* using gifted chat library to implement the chat's functionality */}
         <GiftedChat
           renderBubble={this.renderBubble.bind(this)}

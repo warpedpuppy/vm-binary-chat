@@ -16,8 +16,13 @@ import { createStackNavigator } from '@react-navigation/stack';
 // Create the navigator
 const Stack = createStackNavigator();
 
-export default function App() {
-  return (
+export default class App extends React.Component {
+  state = { 
+    userName: '',
+    userColor: '',
+   };
+  render() {
+    return (
     <NavigationContainer>
       {/* setting the initial screen when app loads */}
       <Stack.Navigator
@@ -36,6 +41,8 @@ export default function App() {
       </Stack.Navigator>
     </NavigationContainer>
   );
+  }
+  
 }
 
 
